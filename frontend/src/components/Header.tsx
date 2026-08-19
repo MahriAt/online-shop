@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import logo from "../assets/logo-electro.png";
 
 export default function Header() {
   return (
@@ -26,7 +27,7 @@ export default function Header() {
         <div className="container">
           {/* Mobile logo */}
           <NavLink className="navbar-brand d-md-none" to="/">
-            <img src="#" alt="Logo" height="32" />
+            <img src={logo} alt="Logo" height="32" />
           </NavLink>
 
           {/* Mobile menu button */}
@@ -67,7 +68,7 @@ export default function Header() {
                 {/* Logo - desktop */}
                 <li className="nav-item d-none d-md-block">
                   <NavLink className="nav-link" to="/" aria-label="Home">
-                    <img src="#" alt="Logo" height="32" />
+                    <img src={logo} alt="Logo" height="32" />
                   </NavLink>
                 </li>
 
