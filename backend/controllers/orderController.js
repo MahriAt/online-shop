@@ -4,33 +4,58 @@ const prisma = new PrismaClient();
 
 exports.createOrder = async (req, res) => {
   try {
-    if (!req.body.userId) {
+    if (!req.user.userId) {
       return res.status(422).json({ error: "UserId is required " });
     }
     if (
       !(await prisma.user.findUnique({
-        where: { id: parseInt(req.body.userId) },
+        where: { id: parseInt(req.user.userId) },
       }))
     ) {
       return res.status(409).json({ error: "User doesn't exist" });
     }
-    if (
-      await prisma.order.findFirst({
-        where: { userId: parseInt(req.body.userId) } && { status: "pending" },
-      })
-    ) {
-      return res
-        .status(409)
-        .json({ error: "Pending order detected, can't create new order" });
+    const pendingOrder = await prisma.order.findFirst({
+      where: {
+        userId: parseInt(req.user.userId),
+        status: "pending",
+      },
+      include: {
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (pendingOrder) {
+      return res.status(200).json(pendingOrder);
     }
     const newOrder = await prisma.order.create({
       data: {
-        userId: parseInt(req.body.userId),
+        userId: parseInt(req.user.userId),
+      },
+      include: {
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
     const newOrderHistory = await prisma.orderHistory.create({
       data: {
-        userId: parseInt(req.body.userId),
+        userId: parseInt(req.user.userId),
         orderId: newOrder.id,
       },
     });

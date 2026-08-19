@@ -61,9 +61,17 @@ exports.getProducts = async (req, res) => {
             name: true,
           },
         },
+        images: {
+          select: {
+            id: true,
+            imageUrl: true,
+          },
+        },
       },
       omit: {
         categoryId: true,
+        createAt: true,
+        updatedAt: true,
       },
     });
 

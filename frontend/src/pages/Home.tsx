@@ -1,9 +1,10 @@
 import "../styles/Home.css";
+import { NavLink } from "react-router-dom";
 
 export default function Home() {
   return (
     <>
-      <div className="page">
+      <div>
         <main>
           <div
             className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary"
@@ -15,12 +16,12 @@ export default function Home() {
                 Find any household appliences youu want
               </h3>
               <div className="d-flex gap-3 justify-content-center lead fw-normal">
-                <a className="icon-link" href="#">
-                  Buy
+                <NavLink to="/catalog">
                   <svg className="bi" aria-hidden="true">
                     <use href="#chevron-right"></use>
                   </svg>
-                </a>
+                  Buy
+                </NavLink>
               </div>
             </div>
             <div

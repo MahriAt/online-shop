@@ -28,7 +28,7 @@ model Product {
   createAt    DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   categoryId  Int      @map("category_id")
-  category    Category @relation(fields: [categoryId], references: [id])
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   orderItems OrderItem[]
   images     ProductImage[]

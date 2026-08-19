@@ -1,10 +1,45 @@
 import "../styles/LogIn.css";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 export default function LogIn() {
+  const { login } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      login(data.token);
+
+      console.log("Logged in!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <main className="form-signin w-100 m-auto">
-        <form>
+        <form onSubmit={handleLogin}>
           <img
             className="mb-4"
             src="./src/assets/logo-electro-dark.png"
@@ -16,6 +51,8 @@ export default function LogIn() {
             <input
               type="email"
               className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="floatingInput"
               placeholder="name@example.com"
             />
@@ -25,6 +62,8 @@ export default function LogIn() {
             <input
               type="password"
               className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               id="floatingPassword"
               placeholder="Password"
             />
