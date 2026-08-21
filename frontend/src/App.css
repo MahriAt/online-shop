@@ -50,6 +50,7 @@ nav a.active {
 .page {
   margin: 80px auto;
   width: 90%;
+  min-height: 50vh;
   justify-content: center;
 }
 .product-card-popOut {

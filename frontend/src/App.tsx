@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import LogIn from "./pages/LogIn";
 import Catalog from "./pages/Catalog";
 import Contact from "./pages/Contact";
+import CheckOut from "./components/CheckOut";
 
 import Header from "./components/Header";
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/logIn" element={<LogIn />} />
+          <Route path="/checkout" element={<CheckOut />} />
         </Routes>
 
         <Footer />

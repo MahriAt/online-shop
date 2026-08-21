@@ -21,11 +21,15 @@ exports.createOrder = async (req, res) => {
       },
       include: {
         items: {
+          orderBy: {
+            id: "asc",
+          },
           include: {
             product: {
               select: {
                 id: true,
                 name: true,
+                images: true,
               },
             },
           },
@@ -35,31 +39,33 @@ exports.createOrder = async (req, res) => {
 
     if (pendingOrder) {
       return res.status(200).json(pendingOrder);
-    }
-    const newOrder = await prisma.order.create({
-      data: {
-        userId: parseInt(req.user.userId),
-      },
-      include: {
-        items: {
-          include: {
-            product: {
-              select: {
-                id: true,
-                name: true,
+    } else {
+      const newOrder = await prisma.order.create({
+        data: {
+          userId: parseInt(req.user.userId),
+        },
+        include: {
+          items: {
+            include: {
+              product: {
+                select: {
+                  id: true,
+                  name: true,
+                  images: true,
+                },
               },
             },
           },
         },
-      },
-    });
-    const newOrderHistory = await prisma.orderHistory.create({
-      data: {
-        userId: parseInt(req.user.userId),
-        orderId: newOrder.id,
-      },
-    });
-    return res.status(201).json([newOrder, newOrderHistory]);
+      });
+      const newOrderHistory = await prisma.orderHistory.create({
+        data: {
+          userId: parseInt(req.user.userId),
+          orderId: newOrder.id,
+        },
+      });
+      return res.status(201).json(newOrder);
+    }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -76,37 +82,65 @@ exports.getAllOrders = async (req, res) => {
 
 exports.addProductInOrder = async (req, res) => {
   try {
-    if (
-      !(await prisma.order.findUnique({
-        where: { id: parseInt(req.params.orderId) },
-      }))
-    ) {
-      return res.status(422).json({ error: "Could not find order by id" });
+    const userId = parseInt(req.user.userId);
+    const productId = parseInt(req.body.productId);
+    const quantity = parseInt(req.body.quantity);
+
+    // Find the user's pending order
+    const order = await prisma.order.findFirst({
+      where: {
+        userId: userId,
+        status: "pending",
+      },
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        error: "Pending order not found",
+      });
     }
+
     if (
       !(await prisma.product.findUnique({
-        where: { id: parseInt(req.body.productId) },
+        where: { id: parseInt(productId) },
       }))
     ) {
       return res.status(404).json("Product not found");
     }
-    if (req.body.productId === "") {
+    if (productId === "") {
       return res.status(422).json({ error: "Product id can not be empty" });
     }
-    if (req.body.quantity !== undefined && req.body.quantity === "") {
+    if (quantity !== undefined && quantity === "") {
       return res.status(422).json({ error: "Quantity cannot be empty" });
     }
     const product = await prisma.product.findFirst({
-      where: { id: parseInt(req.body.productId) },
+      where: { id: parseInt(productId) },
       select: {
         price: true,
       },
     });
+    const productInCart = await prisma.orderItem.findFirst({
+      where: { orderId: order.id, productId: parseInt(productId) },
+    });
+    if (productInCart) {
+      const updatedOrder = await prisma.orderItem.update({
+        where: { id: productInCart.id },
+        data: { quantity: productInCart.quantity + parseInt(quantity) },
+        include: {
+          product: {
+            include: {
+              images: true,
+            },
+          },
+        },
+      });
+      return res.status(200).json(updatedOrder);
+    }
     const newOrderItem = await prisma.orderItem.create({
       data: {
-        productId: parseInt(req.body.productId),
-        orderId: parseInt(req.params.orderId),
-        quantity: parseInt(req.body.quantity),
+        productId: parseInt(productId),
+        orderId: parseInt(order.id),
+        quantity: parseInt(quantity),
         price: product.price,
       },
     });
@@ -118,10 +152,17 @@ exports.addProductInOrder = async (req, res) => {
 
 exports.removeProductInOrder = async (req, res) => {
   try {
+    const userId = parseInt(req.user.userId);
+    const order = await prisma.order.findFirst({
+      where: {
+        userId: userId,
+        status: "pending",
+      },
+    });
     const product = await prisma.orderItem.findFirst({
       where: {
         productId: parseInt(req.body.productId),
-        orderId: parseInt(req.params.orderId),
+        orderId: parseInt(order.id),
       },
     });
     if (!product) {
@@ -154,6 +195,13 @@ exports.removeProductInOrder = async (req, res) => {
       data: {
         quantity: product.quantity - quantityToRemove,
       },
+      include: {
+        product: {
+          include: {
+            images: true,
+          },
+        },
+      },
     });
 
     return res.status(200).json(updatedProduct);
@@ -183,7 +231,9 @@ exports.getOrderById = async (req, res) => {
             price: true,
             product: {
               select: {
+                id: true,
                 name: true,
+                images: true,
               },
             },
           },
@@ -233,6 +283,17 @@ exports.updateOrderStatus = async (req, res) => {
         status: req.body.status,
       },
       where: { id: parseInt(req.params.id) },
+      include: {
+        items: {
+          include: {
+            product: {
+              include: {
+                images: true,
+              },
+            },
+          },
+        },
+      },
     });
     return res.status(200).json(newOrderStatus);
   } catch (error) {

@@ -23,7 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       return;
     }
 
-    const response = await apiFetch(`/orders/orderItem/:${product.id}`, {
+    const response = await apiFetch(`/orders/orderItem`, {
       method: "POST",
       body: JSON.stringify({
         productId: product.id,

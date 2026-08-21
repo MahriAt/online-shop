@@ -6,17 +6,9 @@ router.post("/", checkAuth, orderController.createOrder);
 router.get("/", checkAuth, orderController.getAllOrders);
 router.get("/:id", checkAuth, orderController.getOrderById);
 
-router.post(
-  "/orderItem/:orderId",
-  checkAuth,
-  orderController.addProductInOrder,
-);
-router.delete(
-  "/orderItem/:orderId",
-  checkAuth,
-  orderController.removeProductInOrder,
-);
+router.post("/orderItem", checkAuth, orderController.addProductInOrder);
+router.delete("/orderItem", checkAuth, orderController.removeProductInOrder);
 
-router.post("/status/:id", checkAuth, orderController.updateOrderStatus);
+router.put("/status/:id", checkAuth, orderController.updateOrderStatus);
 router.delete("/:id", checkAuth, orderController.deleteOrder);
 module.exports = router;

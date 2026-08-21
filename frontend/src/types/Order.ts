@@ -1,6 +1,9 @@
+import { type ProductImage } from "./Product";
+
 export interface OrderProduct {
   id: number;
   name: string;
+  images: ProductImage[];
 }
 
 export interface OrderItem {
