@@ -127,5 +127,21 @@ exports.loginUser = async (req, res) => {
       },
     );
     return res.status(200).json({ user: user, token: token });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.getUserAccount = async (req, res) => {
+  try {
+    const userId = parseInt(req.user.userId);
+    const account = await prisma.user.findUnique({
+      where: { id: userId },
+      omit: {
+        password: true,
+      },
+    });
+    return res.status(200).json(account);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };

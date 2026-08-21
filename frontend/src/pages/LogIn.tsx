@@ -1,9 +1,12 @@
 import "../styles/LogIn.css";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn() {
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +35,9 @@ export default function LogIn() {
       login(data.token);
 
       console.log("Logged in!");
+      setTimeout(() => {
+        navigate("/account");
+      }, 1000);
     } catch (error) {
       console.error(error);
     }
@@ -81,9 +87,17 @@ export default function LogIn() {
             </label>
           </div>
           <button className="btn btn-primary w-100 py-2" type="submit">
-            Sign in
+            Log in
           </button>
         </form>{" "}
+        <button className="btn btn-secondary w-100 py-2">
+          <NavLink
+            to="/signup"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Sign up
+          </NavLink>
+        </button>
       </main>
     </>
   );

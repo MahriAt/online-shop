@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo-electro.png";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
+  const { token } = useAuth();
   return (
     <>
       {/* SVG icons */}
@@ -134,7 +136,10 @@ export default function Header() {
 
                   {/* Log In */}
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/logIn">
+                    <NavLink
+                      className="nav-link"
+                      to={token ? "/account" : "/login"}
+                    >
                       <svg
                         className="bi"
                         width="24"

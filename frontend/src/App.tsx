@@ -8,6 +8,8 @@ import LogIn from "./pages/LogIn";
 import Catalog from "./pages/Catalog";
 import Contact from "./pages/Contact";
 import CheckOut from "./components/CheckOut";
+import SignUp from "./components/SighUp";
+import Account from "./components/Account";
 
 import Header from "./components/Header";
 
@@ -28,6 +30,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
 
         <Footer />
