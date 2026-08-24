@@ -1,7 +1,6 @@
 import { type Product } from "../types/Product";
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { apiFetch } from "../api/api";
+
 import { useCart } from "../context/CartContext";
 
 interface ProductCardProps {
