@@ -8,11 +8,12 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [showMore, setShowMore] = useState(false);
   const imageUrl =
     product.images.length > 0
-      ? `http://localhost:3000${product.images[0].imageUrl}`
-      : "http://localhost:3000/1786975887070-global-9349_64.png";
+      ? `${API_URL}${product.images[0].imageUrl}`
+      : `${API_URL}/1786975887070-global-9349_64.png`;
 
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -52,7 +53,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.images.length > 0 && (
               <>
                 <img
-                  src={`http://localhost:3000${product.images[currentImage].imageUrl}`}
+                  src={`${API_URL}${product.images[currentImage].imageUrl}`}
                   alt={product.name}
                 />
 

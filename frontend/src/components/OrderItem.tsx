@@ -9,6 +9,7 @@ interface OrderItemProps {
 }
 
 function OrderItem({ item, onUpdate }: OrderItemProps) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const total = Number(item.price) * item.quantity;
   const { token } = useAuth();
   const removeAll = async () => {
@@ -92,7 +93,7 @@ function OrderItem({ item, onUpdate }: OrderItemProps) {
     }
   };
 
-  const imageUrl = `http://localhost:3000${item.product.images[0].imageUrl}`;
+  const imageUrl = `${API_URL}${item.product.images[0].imageUrl}`;
   return (
     <div className="cart-item">
       <div className="cart-item-product-info">
