@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function SignUp() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [emailClass, setEmailClass] = useState("");
+  const [phoneClass, setPhoneClass] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,6 +13,8 @@ export default function SignUp() {
     address: "",
     password: "",
   });
+  const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -25,6 +29,20 @@ export default function SignUp() {
     e.preventDefault();
 
     try {
+      let email = formData.email.match(emailRegex);
+      let phone = formData.phone.match(phoneRegex);
+      if (!email) {
+        setEmailClass("is-invalid");
+        throw new Error("Not valid email");
+      } else {
+        setEmailClass("");
+      }
+      if (!phone) {
+        setPhoneClass("is-invalid");
+        throw new Error("Not valid phone number");
+      } else {
+        setPhoneClass("");
+      }
       const response = await fetch(`http://localhost:3000/users/signup`, {
         method: "POST",
         headers: {
@@ -88,7 +106,7 @@ export default function SignUp() {
 
               <input
                 type="email"
-                className="form-control"
+                className={`form-control ${emailClass}`}
                 id="email"
                 placeholder="you@example.com"
                 value={formData.email}
@@ -105,7 +123,7 @@ export default function SignUp() {
 
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${phoneClass}`}
                 id="phone"
                 placeholder="05055555555"
                 value={formData.phone}

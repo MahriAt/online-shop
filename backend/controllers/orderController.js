@@ -125,7 +125,11 @@ exports.addProductInOrder = async (req, res) => {
     if (productInCart) {
       const updatedOrder = await prisma.orderItem.update({
         where: { id: productInCart.id },
-        data: { quantity: productInCart.quantity + parseInt(quantity) },
+        data: {
+          quantity: {
+            increment: parseInt(quantity),
+          },
+        },
         include: {
           product: {
             include: {
@@ -142,6 +146,13 @@ exports.addProductInOrder = async (req, res) => {
         orderId: parseInt(order.id),
         quantity: parseInt(quantity),
         price: product.price,
+      },
+      include: {
+        product: {
+          include: {
+            images: true,
+          },
+        },
       },
     });
     return res.status(201).json(newOrderItem);

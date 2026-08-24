@@ -2,6 +2,7 @@ import { type Product } from "../types/Product";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../api/api";
+import { useCart } from "../context/CartContext";
 
 interface ProductCardProps {
   product: Product;
@@ -12,30 +13,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl =
     product.images.length > 0
       ? `http://localhost:3000${product.images[0].imageUrl}`
-      : "/1786975887070-global-9349_64.png";
+      : "http://localhost:3000/1786975887070-global-9349_64.png";
 
   const [currentImage, setCurrentImage] = useState(0);
-  const { token } = useAuth();
 
-  const addToCart = async () => {
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
-
-    const response = await apiFetch(`/orders/orderItem`, {
-      method: "POST",
-      body: JSON.stringify({
-        productId: product.id,
-        quantity: 1,
-      }),
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-  };
-
+  const { addToCart } = useCart();
   return (
     <div className="card" style={{ width: "18rem" }}>
       <img
@@ -58,7 +40,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.name}
         </h5>
         <p className="card-text">{product.price}$</p>
-        <button className="btn btn-primary" onClick={addToCart}>
+        <button
+          className="btn btn-primary"
+          onClick={() => addToCart(product.id)}
+        >
           Add to cart
         </button>
       </div>

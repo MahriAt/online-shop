@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 export interface Account {
   name: string;
@@ -9,7 +11,8 @@ export interface Account {
 }
 
 export default function Account() {
-  const { token } = useAuth();
+  const navigate = useNavigate();
+  const { token, logout } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -24,7 +27,7 @@ export default function Account() {
       }
 
       try {
-        const response = await fetch("http://localhost:3000/users/account", {
+        const response = await apiFetch(`/users/account`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,6 +68,10 @@ export default function Account() {
   if (!account) {
     return <p>Account not found.</p>;
   }
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="page">
@@ -85,6 +92,9 @@ export default function Account() {
       <p>
         <strong>Address:</strong> {account.address}
       </p>
+      <button className="btn btn-primary w-50 py-2" onClick={handleLogout}>
+        Log Out
+      </button>
     </div>
   );
 }

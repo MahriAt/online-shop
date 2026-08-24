@@ -11,8 +11,16 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  return fetch(`${API_URL}${endpoint}`, {
+  const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers,
   });
+  if (response.status === 401) {
+    localStorage.removeItem("token");
+
+    window.location.href = "/login";
+
+    throw new Error("Session expired");
+  }
+  return response;
 }

@@ -1,9 +1,12 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo-electro.png";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 export default function Header() {
   const { token } = useAuth();
+  const { cartItemCount } = useCart();
+
   return (
     <>
       {/* SVG icons */}
@@ -131,6 +134,21 @@ export default function Header() {
                       >
                         <use href="#cart"></use>
                       </svg>
+                      {cartItemCount > 0 && (
+                        <span
+                          className="
+                          position-absolute
+                          top-20
+                          start-90
+                          translate-middle
+                          badge
+                          rounded-pill
+                          bg-danger
+                        "
+                        >
+                          {cartItemCount}
+                        </span>
+                      )}
                     </NavLink>
                   </li>
 

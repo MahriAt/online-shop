@@ -95,8 +95,16 @@ exports.getProductsById = async (req, res) => {
           },
         },
       },
+      images: {
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
       omit: {
         categoryId: true,
+        createAt: true,
+        updatedAt: true,
       },
     });
     if (!product) {
@@ -138,6 +146,12 @@ exports.updateProduct = async (req, res) => {
           select: {
             id: true,
             name: true,
+          },
+        },
+        images: {
+          select: {
+            id: true,
+            imageUrl: true,
           },
         },
       },
@@ -190,6 +204,12 @@ exports.getProductsByCategoryId = async (req, res) => {
           select: {
             id: true,
             name: true,
+          },
+        },
+        images: {
+          select: {
+            id: true,
+            imageUrl: true,
           },
         },
       },

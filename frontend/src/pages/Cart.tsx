@@ -1,80 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import type { OrderItem as OrderItemType } from "../types/Order";
-import { useAuth } from "../context/AuthContext";
 import OrderItem from "../components/OrderItem";
-import type { Order } from "../types/Order";
+
 import { NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Cart() {
-  const { token } = useAuth();
-
-  const [order, setOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const loadCart = useCallback(async () => {
-    if (!token) {
-      setError("Please login first");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to load cart");
-      }
-
-      setOrder(data);
-      setError("");
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to load cart");
-    } finally {
-      setLoading(false);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    loadCart();
-  }, [loadCart]);
-
-  const updateItem = (
-    updatedItem: OrderItemType | null,
-    removedItemId?: number,
-  ) => {
-    setOrder((currentOrder) => {
-      if (!currentOrder) return currentOrder;
-
-      // Remove item
-      if (removedItemId !== undefined) {
-        return {
-          ...currentOrder,
-          items: currentOrder.items.filter((item) => item.id !== removedItemId),
-        };
-      }
-
-      // Update item
-      if (updatedItem) {
-        return {
-          ...currentOrder,
-          items: currentOrder.items.map((item) =>
-            item.id === updatedItem.id ? updatedItem : item,
-          ),
-        };
-      }
-
-      return currentOrder;
-    });
-  };
+  const { order, loading, error, updateItem } = useCart();
 
   if (loading) {
     return <p>Loading cart...</p>;
@@ -88,11 +18,10 @@ function Cart() {
     return <p>Cart is empty.</p>;
   }
 
-  const totalPrice =
-    order?.items?.reduce(
-      (total, item) => total + Number(item.price) * item.quantity,
-      0,
-    ) ?? 0;
+  const totalPrice = order.items.reduce(
+    (total, item) => total + Number(item.price) * item.quantity,
+    0,
+  );
 
   return (
     <div className="page">

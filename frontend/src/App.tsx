@@ -22,7 +22,7 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-        <ThemeChange />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />

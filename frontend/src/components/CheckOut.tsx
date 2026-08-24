@@ -270,26 +270,6 @@ export default function CheckOut() {
 
                 {/* USERNAME */}
 
-                <div className="col-12">
-                  <label htmlFor="username" className="form-label">
-                    Username
-                  </label>
-
-                  <div className="input-group">
-                    <span className="input-group-text">@</span>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      placeholder="Username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-
                 {/* EMAIL */}
 
                 <div className="col-12">
@@ -407,7 +387,7 @@ export default function CheckOut() {
 
               <h4 className="mb-3">Payment</h4>
 
-              <div className="my-3">
+              <div className="my-3" style={{ textAlign: "left" }}>
                 <div className="form-check">
                   <input
                     id="credit"
@@ -474,71 +454,6 @@ export default function CheckOut() {
               </div>
 
               {/* ================= CARD ================= */}
-
-              {formData.paymentMethod !== "paypal" && (
-                <div className="row gy-3">
-                  <div className="col-md-6">
-                    <label htmlFor="cardName" className="form-label">
-                      Name on card
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cardName"
-                      value={formData.cardName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="col-md-6">
-                    <label htmlFor="cardNumber" className="form-label">
-                      Card number
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="col-md-3">
-                    <label htmlFor="expiration" className="form-label">
-                      Expiration
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="expiration"
-                      placeholder="MM/YY"
-                      value={formData.expiration}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="col-md-3">
-                    <label htmlFor="cvv" className="form-label">
-                      CVV
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cvv"
-                      value={formData.cvv}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              )}
 
               <hr className="my-4" />
 
