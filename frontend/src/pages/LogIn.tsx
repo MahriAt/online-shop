@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../api/api";
 
 export default function LogIn() {
   const { login } = useAuth();
@@ -15,7 +16,7 @@ export default function LogIn() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
+      const response = await apiFetch("/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

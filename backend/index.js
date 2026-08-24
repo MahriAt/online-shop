@@ -22,4 +22,4 @@ app.use("/categories", require("./routes/categoryRoute"));
 app.use("/users", require("./routes/userRoute"));
 app.use("/orders", require("./routes/orderRoute"));
 
-app.listen(PORT, () => console.log("Server is running on port 3000"));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

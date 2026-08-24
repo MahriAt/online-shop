@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import type { Order } from "../types/Order";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../api/api";
 
 export default function CheckOut() {
   const { token } = useAuth();
@@ -36,7 +37,7 @@ export default function CheckOut() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/orders", {
+      const response = await apiFetch("/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,19 +97,16 @@ export default function CheckOut() {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/orders/status/${order.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            status: "confirmed",
-          }),
+      const response = await apiFetch(`/orders/status/${order.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({
+          status: "confirmed",
+        }),
+      });
 
       const data = await response.json();
 

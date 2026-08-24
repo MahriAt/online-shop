@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../api/api";
 
 export default function SignUp() {
   const [error, setError] = useState("");
@@ -43,7 +44,7 @@ export default function SignUp() {
       } else {
         setPhoneClass("");
       }
-      const response = await fetch(`http://localhost:3000/users/signup`, {
+      const response = await apiFetch(`/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
