@@ -461,6 +461,7 @@ export default function CheckOut() {
             </form>
           </div>
         </div>
+        <p style={{ display: "none" }}>{success}</p>
       </main>
     </div>
   );

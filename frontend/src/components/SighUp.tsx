@@ -167,6 +167,7 @@ export default function SignUp() {
             </div>
 
             <hr className="my-4" />
+            <p style={{ display: "none" }}>{error}</p>
 
             <button className="w-100 btn btn-primary btn-lg" type="submit">
               Sign Up
