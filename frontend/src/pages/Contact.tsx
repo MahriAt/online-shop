@@ -1,7 +1,7 @@
 export default function Contact() {
   return (
     <>
-      <div className="page" style={{ display: "flex", gap: "50px" }}>
+      <div className="page contact" style={{ display: "flex", gap: "50px" }}>
         <div className="contact-left" style={{ textAlign: "left" }}>
           <h1>Contacts</h1>
           <div style={{ marginTop: "15%" }}>

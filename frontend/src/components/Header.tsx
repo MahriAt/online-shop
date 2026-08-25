@@ -77,7 +77,7 @@ export default function Header() {
                   </NavLink>
                 </li>
 
-                <div style={{ display: "flex" }}>
+                <div className="d-flex flex-column flex-md-row">
                   {/* Home */}
 
                   <li className="nav-item">
@@ -117,7 +117,7 @@ export default function Header() {
                     </NavLink>
                   </li>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div className="d-flex flex-column flex-md-row">
                   <li className="nav-item">
                     <NavLink
                       className={({ isActive }) =>

@@ -4,6 +4,8 @@ import type { Order } from "../types/Order";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../api/api";
 
+import logoDark from "../assets/logo-electro-dark.png";
+
 export default function CheckOut() {
   const { token } = useAuth();
   const [success, setSuccess] = useState(false);
@@ -161,7 +163,7 @@ export default function CheckOut() {
         <div className="py-5 text-center">
           <img
             className="d-block mx-auto mb-4"
-            src="./src/assets/logo-electro-dark.png"
+            src={logoDark}
             alt="Logo"
             height="57"
           />

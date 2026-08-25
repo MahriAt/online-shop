@@ -170,8 +170,36 @@ nav a.active {
 footer {
   justify-content: center;
 }
-@media (min-width: 400px) and (max-width: 800px) {
+@media (min-width: 320px) and (max-width: 800px) {
   .headder a {
     font-size: 16px;
+  }
+  .product-card-popOut {
+    flex-direction: column;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: auto;
+    justify-content: center;
+    overflow: scroll;
+  }
+  .product-info {
+    width: 100%;
+  }
+  .product-card-popOut-images img {
+    height: 250px;
+    object-fit: contain;
+  }
+  .cart-item-product-info {
+    flex-direction: column;
+  }
+  .cart-item {
+    margin-bottom: 20px;
+  }
+  .contact {
+    flex-direction: column;
+  }
+  .contact-right iframe {
+    width: 100%;
   }
 }
