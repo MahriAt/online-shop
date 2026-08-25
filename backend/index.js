@@ -24,4 +24,10 @@ app.use("/categories", require("./routes/categoryRoute"));
 app.use("/users", require("./routes/userRoute"));
 app.use("/orders", require("./routes/orderRoute"));
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.get("/", (req, res) => {
+  res.status(200).send("Online Shop API is running");
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${PORT}`);
+});
