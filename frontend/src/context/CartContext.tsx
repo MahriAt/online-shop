@@ -39,6 +39,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const loadCart = useCallback(async () => {
     if (!token) {
+      alert("Please log in to add products to your cart.");
       setOrder(null);
       setError("");
       return;
@@ -101,6 +102,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [],
   );
   const addToCart = useCallback(async (productId: number) => {
+    if (!token) {
+      alert("Please log in to add products to your cart.");
+      return;
+    }
     try {
       const response = await apiFetch("/orders/orderItem", {
         method: "POST",
