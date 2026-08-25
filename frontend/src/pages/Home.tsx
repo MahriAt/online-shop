@@ -1,6 +1,11 @@
 import "../styles/Home.css";
 import { NavLink } from "react-router-dom";
-
+import airfrier from "../assets/airfrier.webp";
+import mixer from "../assets/mixer.png";
+import houseapp from "../assets/house-applience.jpg";
+import kitchen from "../assets/small-kitchen-appliances.jpg";
+import office from "../assets/office-applience.jpg";
+import bathroom from "../assets/bathroom-appliences.jpg";
 export default function Home() {
   return (
     <>
@@ -28,7 +33,7 @@ export default function Home() {
               className="product-device  d-none d-md-block"
               style={{ background: "none" }}
             >
-              <img src="./src/assets/mixer.png" height="300" />
+              <img src={mixer} height="300" />
             </div>
             <div
               className="product-device product-device-2 d-none d-md-flex justify-content-center align-items-center"
@@ -37,7 +42,7 @@ export default function Home() {
                 transform: "rotate(-30deg)",
               }}
             >
-              <img src="./src/assets/airfrier.webp" height="300" />
+              <img src={airfrier} height="300" />
             </div>
           </div>
           <div className="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
@@ -50,7 +55,7 @@ export default function Home() {
                   borderRadius: " 21px 21px 0 0",
                 }}
               >
-                <img src="./src/assets/house-applience.jpg" height="300" />
+                <img src={houseapp} height="300" />
               </div>
             </div>
             <div className="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
@@ -81,7 +86,7 @@ export default function Home() {
               >
                 {" "}
                 <img
-                  src="./src/assets/small-kitchen-appliances.jpg"
+                  src={kitchen}
                   height="300"
                   width="100%"
                   style={{ borderRadius: "21px 21px 0 0" }}
@@ -106,7 +111,7 @@ export default function Home() {
                 }}
               >
                 <img
-                  src="./src/assets/bathroom-appliences.jpg"
+                  src={bathroom}
                   height="300"
                   width="100%"
                   style={{ borderRadius: "21px 21px 0 0" }}
@@ -133,7 +138,7 @@ export default function Home() {
               >
                 {" "}
                 <img
-                  src="./src/assets/office-applience.jpg"
+                  src={office}
                   height={300}
                   style={{ borderRadius: "21px 21px 0 0" }}
                 />
